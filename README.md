@@ -7,7 +7,6 @@ Işıklandırma (Lights)
 Volume Processing
 Post Processing
 Ses Efektleri & Ortam Müzikleri
-Not: Aşağıdaki başlık ve alt başlıkların nasıl yazıldığını görmek için en alttaki “Markdown Başlıklar Nasıl Kullanılır?” kısmına bakabilirsiniz.
 
 İçindekiler
 Özellikler
@@ -19,34 +18,24 @@ Korku Temalı Mekanikler: Elinizdeki fener, karanlık mekânlarda ilerlemek içi
 Gelişmiş Atmosfer: Unity’nin Lights ve Volume Processing özellikleri ile korku atmosferi derinleştirilir.
 Decal ve Etkileşim: Zemin veya duvar üstüne yansıtılan efektler ve oyuncu etkileşimleri (örneğin kapı açılması ya da sürpriz efektler).
 Post Processing: Görsel kalitenin arttırılması, renk düzenlemeleri, kontrast ve gölge efektleri.
-##Görseller
-Burada oyundan ekran görüntülerini paylaşabilirsiniz.
-Resim dosyalarınızı örneğin Assets/Images klasörüne koyarak README’de ilgili yolları belirtin.
+## Görseller
 
-# Oyun Başlangıç Ekranı
+### Oyun Başlangıç Ekranı
 
-# Oyun İçi Görüntü
+![Oyun Başlangıç Ekranı](1.png)
 
-# Karanlık Bir Geçit
+### Oyun İçi Görüntü
+
+![Oyun İçi Görüntü](Pics/2)
+
+### Karanlık Bir Geçit
+
+![Karanlık Bir Geçit](Pics/3)
 
 ## Kod Örnekleri
 Aşağıda proje içinde kullanılabilecek bazı basit kod örnekleri verilmiştir.
 
 ### Fener Açma/Kapama
-csharp
-Copy
-Edit
-using System.Collections;
-using UnityEngine;
-
-public class LightDestroyer : MonoBehaviour
-{
-    public Light spotlight; // Fener ışığı
-    public float destroyTime = 3f; // Nesnenin yok olması için gereken süre
-    private GameObject currentTarget = null; // Şu anki hedef nesne
-    private float timer = 0f; // Işığa maruz kalma süresi
-    public LayerMask destructibleLayer;
-    void Update()
     {
         Ray ray = new Ray(spotlight.transform.position, spotlight.transform.forward);
         RaycastHit hit;
@@ -110,24 +99,8 @@ public class LightDestroyer : MonoBehaviour
 
         Destroy(obj);
     }
-}
-### Basit Bir Event Tetikleyici
 
-csharp
-Copy
-Edit
-public class TriggerSystem : MonoBehaviour
-{
-    [SerializeField] Rigidbody koltuk;
-    [SerializeField] Vector3 throwDirection;
-    [SerializeField] float throwForce;
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            HorrorEvent();
-        }
-    }
+### Basit Bir Event Tetikleyici
 
     private void HorrorEvent()
     {
@@ -136,7 +109,6 @@ public class TriggerSystem : MonoBehaviour
 
         koltuk.AddForce(throwDirection.normalized * throwForce, ForceMode.Impulse);
     }
-}
 
 ## Katkıda Bulunanlar
 Ömer Faruk Daşdemir
