@@ -1,82 +1,147 @@
-Project-Chaos: Karanlıktaki Kaos
-Proje Açıklaması:
-Project-Chaos, Unity ile geliştirilmiş bir korku oyunudur. Oyunumuzda, karanlık alanlarda kaosu yok etmek amacıyla elimizdeki feneri kullanıyoruz. Oyun, decal, event sistemleri, ışılandırma, volume processing gibi ileri seviye araçlar kullanılarak görsel ve işitsel açıdan zenginleştirilmiştir.
+# Project-Chaos
+Karanlıktaki Kaos
+Bu proje, Unity kullanılarak geliştirilen bir korku oyunudur. Oyunda, elinizdeki fenerle karanlık yerlerde dolaşıp kaosu yok etmek amacındasınız. Projede kullanılan bazı özellikler:
+
+Decal & Event Sistemleri
+Işıklandırma (Lights)
+Volume Processing
+Post Processing
+Ses Efektleri & Ortam Müzikleri
+Not: Aşağıdaki başlık ve alt başlıkların nasıl yazıldığını görmek için en alttaki “Markdown Başlıklar Nasıl Kullanılır?” kısmına bakabilirsiniz.
 
 İçindekiler
-Hakkında
 Özellikler
-Kurulum
-Kullanım
-Geliştirme
-Katkıda Bulunma
-Lisans
-İletişim
-Hakkında
-Project-Chaos: Karanlıktaki Kaos, oyunculara unutulmaz bir korku deneyimi sunmayı hedefleyen bir Unity oyunudur. Oyuncular, karanlık ortamları aydınlatmak ve orada saklı olan kaosu yok etmek için fenerlerini kullanırlar. Oyun, atmosferik sesler, etkileyici görsel efektler ve etkileşimli oyun mekaniğiyle öne çıkmaktadır.
-
+Görseller
+Kod Örnekleri
+Katkıda Bulunanlar
 Özellikler
-Korku Atmosferi: Gerilim dolu, karanlık ve mistik ortamlar.
-Unity Tabanlı: Unity motorunun gücüyle geliştirilmiş dinamik oyun yapısı.
-Gelişmiş Görsel Efektler: Decal, event sistemleri, ışılandırma ve volume processing gibi teknolojiler kullanılmıştır.
-Etkileşimli Mekanikler: Oyuncuların fener aracılığıyla kaosla mücadele etmesi.
-Sürükleyici Hikaye: Korku ve gizem dolu bir senaryo ile desteklenmiş oyun deneyimi.
-Kurulum
-Gereksinimler
-Unity Sürümü: Örneğin Unity 2021.3 LTS veya üzeri (kullandığınız sürümü belirtin)
-Sistem Gereksinimleri: Bilgisayarınızın oyunu çalıştırabilecek donanıma sahip olması gerekmektedir.
-Adımlar
-Depoyu Klonlayın:
+Korku Temalı Mekanikler: Elinizdeki fener, karanlık mekânlarda ilerlemek için kritik bir rol oynar.
+Gelişmiş Atmosfer: Unity’nin Lights ve Volume Processing özellikleri ile korku atmosferi derinleştirilir.
+Decal ve Etkileşim: Zemin veya duvar üstüne yansıtılan efektler ve oyuncu etkileşimleri (örneğin kapı açılması ya da sürpriz efektler).
+Post Processing: Görsel kalitenin arttırılması, renk düzenlemeleri, kontrast ve gölge efektleri.
+##Görseller
+Burada oyundan ekran görüntülerini paylaşabilirsiniz.
+Resim dosyalarınızı örneğin Assets/Images klasörüne koyarak README’de ilgili yolları belirtin.
 
-bash
+# Oyun Başlangıç Ekranı
+
+# Oyun İçi Görüntü
+
+# Karanlık Bir Geçit
+
+## Kod Örnekleri
+Aşağıda proje içinde kullanılabilecek bazı basit kod örnekleri verilmiştir.
+
+### Fener Açma/Kapama
+csharp
 Copy
-git clone https://github.com/kullaniciadi/Project-Chaos.git
-cd Project-Chaos
-Unity Projesini Açın:
+Edit
+using System.Collections;
+using UnityEngine;
 
-Unity Hub’ı açın.
-“Add” seçeneğiyle projeyi ekleyin.
-Projeyi Unity Editor üzerinden açın.
-Gerekli Paketleri Yükleyin:
+public class LightDestroyer : MonoBehaviour
+{
+    public Light spotlight; // Fener ışığı
+    public float destroyTime = 3f; // Nesnenin yok olması için gereken süre
+    private GameObject currentTarget = null; // Şu anki hedef nesne
+    private float timer = 0f; // Işığa maruz kalma süresi
+    public LayerMask destructibleLayer;
+    void Update()
+    {
+        Ray ray = new Ray(spotlight.transform.position, spotlight.transform.forward);
+        RaycastHit hit;
 
-Unity Package Manager üzerinden kullanılan decal, event sistemleri, ışılandırma ve volume processing araçlarını yükleyin.
-Kullanım
-Oyun Başlatma:
-Oyunu Unity Editor üzerinden "Play" butonuna basarak başlatabilir veya build alarak bağımsız bir uygulama olarak çalıştırabilirsiniz.
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+        {
+            GameObject hitObject = hit.collider.gameObject;
 
-Kontroller ve Mekanikler:
-Oyuncular, fener aracılığıyla karanlık alanları aydınlatır ve böylece kaosun etkilerini azaltır. Detaylı kontrol şeması ve mekanik bilgileri oyun içi rehberde yer almaktadır.
+            if (hitObject.CompareTag("Destructible"))
+            {
+                if (hitObject == currentTarget)
+                {
+                    timer += Time.deltaTime;
 
-Geliştirme
-Projede kullanılan temel teknolojiler ve araçlar:
+                    if (timer >= destroyTime)
+                    {
+                        StartCoroutine(FadeOutAndDestroy(hitObject));
+                        currentTarget = null;
+                        timer = 0f;
+                    }
+                }
+                else
+                {
+                    currentTarget = hitObject;
+                    timer = 0f;
+                }
+            }
+            else
+            {
+                currentTarget = null;
+                timer = 0f;
+            }
+        }
+        else
+        {
+            currentTarget = null;
+            timer = 0f;
+        }
+    }
 
-Decal: Görsel efektleri zenginleştirmek için.
-Event Sistemleri: Oyun içi etkileşim ve olay yönetimi.
-Işılandırma: Atmosferin oluşturulmasında kritik rol oynayan aydınlatma teknikleri.
-Volume Processing: Görüntü işleme ve efekt geliştirme süreçleri.
-Katkıda Bulunma
-Katkılarınız bizim için değerlidir! Projeye katkıda bulunmak için şu adımları takip edebilirsiniz:
+    private IEnumerator FadeOutAndDestroy(GameObject obj)
+    {
+        Renderer renderer = obj.GetComponent<Renderer>();
 
-Repoyu fork'layın.
-Yeni bir branch oluşturun:
-bash
+        if (renderer != null)
+        {
+            Material material = renderer.material;
+            Color originalColor = material.color;
+
+            float fadeDuration = 1f;
+            float fadeElapsed = 0f;
+
+            while (fadeElapsed < fadeDuration)
+            {
+                fadeElapsed += Time.deltaTime;
+                float alpha = Mathf.Lerp(1f, 0f, fadeElapsed / fadeDuration);
+                material.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
+                yield return null;
+            }
+        }
+
+        Destroy(obj);
+    }
+}
+### Basit Bir Event Tetikleyici
+
+csharp
 Copy
-git checkout -b ozellik-ekle
-Değişikliklerinizi commit edin:
-bash
-Copy
-git commit -m "Yeni özellik eklendi"
-Branch'inizi push edin:
-bash
-Copy
-git push origin ozellik-ekle
-Pull Request gönderin.
-Detaylı katkı rehberi için CONTRIBUTING.md dosyasına bakabilirsiniz.
+Edit
+public class TriggerSystem : MonoBehaviour
+{
+    [SerializeField] Rigidbody koltuk;
+    [SerializeField] Vector3 throwDirection;
+    [SerializeField] float throwForce;
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            HorrorEvent();
+        }
+    }
 
-Lisans
-Bu proje, [Lisans Türü] lisansı altında lisanslanmıştır. Lisans detayları için LICENSE dosyasını inceleyebilirsiniz.
+    private void HorrorEvent()
+    {
+        Collider collider = GetComponent<Collider>();
+        collider.enabled = false;
 
-İletişim
-Herhangi bir soru, öneri veya geri bildiriminiz için lütfen iletişime geçin:
+        koltuk.AddForce(throwDirection.normalized * throwForce, ForceMode.Impulse);
+    }
+}
 
-Email: ornek@email.com
-Twitter: @ornekhesap
+## Katkıda Bulunanlar
+Ömer Faruk Daşdemir
+Batuhan Belli
+
+## Teşekkürler!
+Project-Chaos (Karanlıktaki Kaos) projesine gösterdiğiniz ilgi için teşekkürler.
+Her türlü soru veya geri bildirim için bizimle iletişime geçmekten çekinmeyin!
