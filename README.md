@@ -8,12 +8,13 @@ Volume Processing
 Post Processing
 Ses Efektleri & Ortam Müzikleri
 
-İçindekiler
-Özellikler
-Görseller
-Kod Örnekleri
-Katkıda Bulunanlar
-Özellikler
+## İçindekiler
+- [Özellikler](#özellikler)
+- [Görseller](#görseller)
+- [Kod Örnekleri](#kod-örnekleri)
+- [Katkıda Bulunanlar](#katkıda-bulunanlar)
+  
+## Özellikler
 Korku Temalı Mekanikler: Elinizdeki fener, karanlık mekânlarda ilerlemek için kritik bir rol oynar.
 Gelişmiş Atmosfer: Unity’nin Lights ve Volume Processing özellikleri ile korku atmosferi derinleştirilir.
 Decal ve Etkileşim: Zemin veya duvar üstüne yansıtılan efektler ve oyuncu etkileşimleri (örneğin kapı açılması ya da sürpriz efektler).
