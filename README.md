@@ -1,4 +1,7 @@
 # Project-Chaos
+
+**Status:** Shipped (2026-09-13)
+
 Karanlıktaki Kaos
 Bu proje, Unity kullanılarak geliştirilen bir korku oyunudur. Oyunda, elinizdeki fenerle karanlık yerlerde dolaşıp kaosu yok etmek amacındasınız. Projede kullanılan bazı özellikler:
 
